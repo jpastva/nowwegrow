@@ -1,0 +1,153 @@
+{% extends 'about/base.html' %}
+
+{% load static %}
+
+{% block hero %}
+
+    <section id="home-section" class="hero">
+		  <div class="home-slider owl-carousel">
+	      <div class="slider-item" style="background-image: url({% static 'images/bg_1.jpg' %});">
+	      	<div class="overlay"></div>
+	        <div class="container">
+	          <div class="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
+
+	            <div class="col-md-12 ftco-animate text-center">
+	              <h1 class="mb-2">From your farms to your table</h1>
+	              <h2 class="subheading mb-4">The freshest produce &amp; farm products</h2>
+	              <p><a href="{% url 'about' %}" class="btn btn-primary">Learn more</a></p>
+	            </div>
+
+	          </div>
+	        </div>
+	      </div>
+
+	      <div class="slider-item" style="background-image: url({% static 'images/bg_2.jpg' %});">
+	      	<div class="overlay"></div>
+	        <div class="container">
+	          <div class="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
+
+	            <div class="col-sm-12 ftco-animate text-center">
+	              <h1 class="mb-2">Find your local farm</h1>
+	              <h2 class="subheading mb-4">Connecting farms with their communities</h2>
+	              <p><a href="{% url 'map' %}" class="btn btn-primary">Map</a></p>
+	            </div>
+
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	</section>
+{% endblock %}
+
+{% block content %}
+
+	<section class="ftco-section">
+		<div id="content">
+			<div class="container">
+				<div class="row no-gutters ftco-services">
+					<div class="col-md-3 text-center d-flex align-self-stretch ftco-animate">
+						<div class="media block-6 services mb-md-0 mb-4">
+							<div class="icon bg-color-1 active d-flex justify-content-center align-items-center mb-2">
+							<span class="flaticon-shipped"></span>
+							</div>
+							<div class="media-body">
+								<h3 class="heading">Farm to table</h3>
+								<span>Fast order turnaround</span>
+							</div>
+						</div>      
+					</div>
+					<div class="col-md-3 text-center d-flex align-self-stretch ftco-animate">
+						<div class="media block-6 services mb-md-0 mb-4">
+							<div class="icon bg-color-2 d-flex justify-content-center align-items-center mb-2">
+								<span class="flaticon-diet"></span>
+							</div>
+							<div class="media-body">
+								<h3 class="heading">Always Fresh</h3>
+								<span>Right from the source</span>
+							</div>
+						</div>    
+					</div>
+					<div class="col-md-3 text-center d-flex align-self-stretch ftco-animate">
+						<div class="media block-6 services mb-md-0 mb-4">
+							<div class="icon bg-color-3 d-flex justify-content-center align-items-center mb-2">
+								<span class="flaticon-award"></span>
+							</div>
+							<div class="media-body">
+								<h3 class="heading">Superior Quality</h3>
+								<span>Farmer approved!</span>
+							</div>
+						</div>      
+					</div>
+					<div class="col-md-3 text-center d-flex align-self-stretch ftco-animate">
+						<div class="media block-6 services mb-md-0 mb-4">
+							<div class="icon bg-color-4 d-flex justify-content-center align-items-center mb-2">
+								<span class="flaticon-customer-service"></span>
+							</div>
+							<div class="media-body">
+								<h3 class="heading">Up-to-date inventory</h3>
+								<span>New items daily</span>
+							</div>
+						</div>      
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="ftco-section ftco-category ftco-no-pt">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8">
+					<div class="row">
+						<div class="col-md-6 order-md-last align-items-stretch d-flex">
+							<div class="category-wrap-2 ftco-animate img align-self-stretch d-flex" style="background-image: url({% static 'images/category.jpg' %});">
+								<div class="text text-center">
+									<h2>Check out what's available</h2>
+									<p>Fresh and local foods</p>
+									<p><a href="{% url 'shop:product_list' %}" class="btn btn-primary">Shop now</a></p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="category-wrap ftco-animate img mb-4 d-flex align-items-end" style="background-image: url({% static 'images/category-2.jpg' %});">
+								<div class="text px-3 py-1">
+									<h2 class="mb-0"><a href="/shop/fruits">Fruits</a></h2>
+								</div>
+							</div>
+							<div class="category-wrap ftco-animate img d-flex align-items-end" style="background-image: url( {% static 'images/category-1.jpg' %});">
+								<div class="text px-3 py-1">
+									<h2 class="mb-0"><a href="/shop/vegetables">Vegetables</a></h2>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-4">
+					<div class="category-wrap ftco-animate img mb-4 d-flex align-items-end" style="background-image: url( {% static 'images/category-3.jpg' %});">
+						<div class="text px-3 py-1">
+							<h2 class="mb-0"><a href="/shop/meats">Meats</a></h2>
+						</div>		
+					</div>
+					<div class="category-wrap ftco-animate img d-flex align-items-end" style="background-image: url( {% static 'images/category-4.jpg' %});">
+						<div class="text px-3 py-1">
+							<h2 class="mb-0"><a href="/shop/poultry">Poultry</a></h2>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+		
+	<section class="ftco-section img" style="background-image: url({% static 'images/bg_3.jpg' %});">
+		<div class="container">
+			<div class="row justify-content-end">
+				<div class="col-md-6 heading-section ftco-animate deal-of-the-day ftco-animate">
+					<div style='width: 800px; height: 400px;'></div>
+
+				</div>
+			</div>
+		</div>
+	</section>   		
+
+{% endblock %}

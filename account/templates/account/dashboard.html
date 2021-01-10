@@ -1,0 +1,67 @@
+{% extends "about/base.html" %}
+
+{% load static %}
+
+{% block title %}Profile{% endblock %}
+
+{% block hero %}{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row justify-content-start">
+    <h1>Profile</h1>
+  </div>
+  <div class="row justify-content-start">
+  {% if messages %}
+    {% for message in messages %}
+      <p>{{message}}</p>
+    {% endfor %}
+  {% endif %}
+  </div>
+</div>
+  <section class="ftco-section contact-section bg-light">
+    <div class="container">
+      <div class="row d-flex mb-5 align-items-center">
+        <div class="w-100"></div>
+        <div class="col-md-3 d-flex">
+          <div class="info bg-white p-4">
+            <a href="{% url 'edit' %}"><h3>Edit your profile</h3></a>
+          </div>
+        </div>
+        <div class="col-md-3 d-flex">
+          <div class="info bg-white p-4">
+            <a href="{% url 'user_orders' %}"><h3>Manage past orders</h3></a>
+          </div>
+        </div>
+        <div class="col-md-3 d-flex">
+          <div class="info bg-white p-4">
+            <a href="{% url 'user_addresses' %}"><h3>Manage your addresses</h3></a>
+            </div>
+        </div>
+        <div class="col-md-3 d-flex">
+          <div class="info bg-white p-4">
+            <a href="{% url 'password_change' %}"><h3>Update your password</h3></a>
+          </div>
+        </div>
+        </div>        
+        {% if request.user.is_merchant %}
+        <div class="row d-flex mb-5 align-items-center">
+          <div class="col-md-3 d-flex">
+            <div class="info bg-white p-4">
+              <a href="{% url 'merchant_membership' %}"><h3>Manage your membership</h3></a>
+            </div>
+          </div>
+          <div class="col-md-3 d-flex">
+            <div class="info bg-white p-4">
+              <a href="{% url 'merchant_products' %}"><h3>Manage your products</h3></a>
+            </div>
+          </div>
+          <div class="col-md-3 d-flex">
+            <div class="info bg-white p-4">
+              <a href="{% url 'merchant_orders' %}"><h3>View items sold</h3></a>
+            </div>
+          </div>
+        {% endif %}
+    </div>
+  </section>
+{% endblock %}

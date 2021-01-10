@@ -1,0 +1,85 @@
+{% extends "about/base.html" %}
+
+{% load static %} 
+
+{% block title %}
+  {% if merchant_type %}{{ merchant_type.type }}{% else %}Merchants{% endif %}
+{% endblock %}
+
+{% block style %}
+<style>
+    img {
+      width: 275;
+      height: 200;
+      padding-right: 20px;
+    }
+
+    .cover {
+        object-fit: contain;
+    }
+    
+</style>
+{% endblock %}
+
+{% block hero %}
+<div class="hero-wrap hero-bread" style="background-image: url( {% static '/images/bg_1.jpg' %} );">
+  <div class="container">
+    <div class="row no-gutters slider-text align-items-center justify-content-center">
+      <div class="col-md-9 ftco-animate text-center">
+        <p class="breadcrumbs"><span class="mr-2"><a href="{% url 'index' %}">Home</a></span> <span>Merchants</span></p>
+        <h1 class="mb-0 bread">Merchants</h1>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<section class="ftco-section">
+  <div class="container">
+      <div class="row">
+          <div class="col-md-12 mb-5 text-center">
+              <ul class="product-category">
+                  <li {% if not merchant_type %}class="selected"{% endif %}>
+                      <a href="{% url 'merchant_list' %}">All</a>
+                  </li>
+                  {% for t in types %}
+                    <li {% if type.slug == t.slug %}class="selected"
+                  {% endif %}>
+                      <a href="{{ t.get_absolute_url }}">{{ t.type }}</a>
+                  </li>
+                  {% endfor %}
+              </ul>
+          </div>
+      </div>
+  </div>
+  <div id="main" class="merchant-list">
+    <div class="row justify-content-center">
+      <div class="col text-center">
+          <a href="{% url 'map' %}"><h3>Map of merchants</h3></a>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md">
+          <h1>{% if merchant_type %}{{ merchant_type.type }}{% else %}Merchants{% endif %}</h1>
+        </div>
+      </div>
+      <div class="row">
+        {% for merchant in merchants %}
+          <div class="col-md col-lg-3 ftco-animate">
+              <a href="{{ merchant.get_absolute_url }}">
+                <img src="{% if merchant.image %}{{ merchant.image.url }}{% else %}{% static '/images/no_image.png' %}{% endif %}" alt="{{merchant.merchant_name}}">
+              </a>
+              <div class="text py-3 pb-4 px-3 text-center">
+                <a href="{{ merchant.get_absolute_url }}">{{ merchant.merchant_name }}</a>
+              </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>      
+
+{% endblock %}

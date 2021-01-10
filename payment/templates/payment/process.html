@@ -1,0 +1,134 @@
+{% extends "about/base.html" %}
+
+{% load static %} 
+
+{% block title %}Pay by credit card{% endblock %}
+
+{% block style %}
+<style>
+  #card-number {
+  border: 1px solid #333;
+  height: 52px;
+  width: 80%;
+  -webkit-transition: border-color 160ms;
+  transition: border-color 160ms;
+  }
+
+  #card-number.braintree-hosted-fields-focused {
+  border-color: #777;
+  }
+
+  #card-number.braintree-hosted-fields-invalid {
+  border-color: tomato;
+  }
+
+  #card-number.braintree-hosted-fields-valid {
+  border-color: limegreen;
+  }
+
+  #cvv {
+  border: 1px solid #333;
+  height: 52px;
+  width: 80%;
+  -webkit-transition: border-color 160ms;
+  transition: border-color 160ms;
+  }
+
+  #expiration-date {
+  border: 1px solid #333;
+  height: 52px;
+  width: 80%;
+  -webkit-transition: border-color 160ms;
+  transition: border-color 160ms;
+  }
+</style>
+{% endblock %}
+
+{% block hero %}
+<div class="hero-wrap hero-bread" style="background-image: url( {% static '/images/bg_1.jpg' %} );">
+  <div class="container">
+    <div class="row no-gutters slider-text align-items-center justify-content-center">
+      <div class="col-md-9 ftco-animate text-center">
+        <p class="breadcrumbs"><span class="mr-2"><a href="{% url 'index' %}">Home</a></span> <span>Order</span></p>
+        <h1 class="mb-0 bread">Payment</h1>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="col-md-6 d-flex align-items-center">
+  <h1>Pay by credit card</h1>
+  <form action="." id="payment" method="post">
+
+    <label for="card-number">Card Number</label>
+    <div id="card-number" class="field"></div>
+
+    <label for="cvv">CVV</label>
+    <div id="cvv" class="field"></div>
+
+    <label for="expiration-date">Expiration Date</label>
+    <div id="expiration-date" class="field"></div>
+
+    <input type="hidden" id="nonce" name="payment_method_nonce" value="">
+    {% csrf_token %}
+    <br>
+    <input type="submit" value="Pay" class="btn btn-primary py-3 px-4">
+  </form>
+  
+  <!-- Load the required client component. -->
+  <script src="https://js.braintreegateway.com/web/3.29.0/js/client.min.js"></script>
+  <!-- Load Hosted Fields component. -->
+  <script src="https://js.braintreegateway.com/web/3.29.0/js/hosted-fields.min.js"></script>
+  <script>
+    var form = document.querySelector('#payment');
+    var submit = document.querySelector('input[type="submit"]');
+
+    braintree.client.create({
+      authorization: '{{ client_token }}'
+    }, function (clientErr, clientInstance) {
+      if (clientErr) {
+        console.error(clientErr);
+        return;
+      }
+
+      braintree.hostedFields.create({
+        client: clientInstance,
+        styles: {
+          'input': {'font-size': '20px'},
+          'input.invalid': {'color': 'red'},
+          'input.valid': {'color': 'green'}
+        },
+        fields: {
+          number: {selector: '#card-number'},
+          cvv: {selector: '#cvv'},
+          expirationDate: {selector: '#expiration-date'}
+        }
+      }, function (hostedFieldsErr, hostedFieldsInstance) {
+        if (hostedFieldsErr) {
+          console.error(hostedFieldsErr);
+          return;
+        }
+
+        submit.removeAttribute('disabled');
+
+        form.addEventListener('submit', function (event) {
+          event.preventDefault();
+
+          hostedFieldsInstance.tokenize(function (tokenizeErr, payload) {
+            if (tokenizeErr) {
+              console.error(tokenizeErr);
+              return;
+            }
+            // set nonce to send to the server
+            document.getElementById('nonce').value = payload.nonce;
+            // submit form
+            document.getElementById('payment').submit();
+          });
+        }, false);
+      });
+    });
+  </script>
+  </div>
+{% endblock %}

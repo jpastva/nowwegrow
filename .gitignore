@@ -1,0 +1,19 @@
+*.pyc
+*~
+/.vscode
+__pycache__
+myvenv
+.venv 
+db.sqlite3
+settings.py
+/static
+/staticfiles
+.DS_Store
+media
+.log
+*$py.class
+
+# Visual Studio
+.vscode/
+.history/
+*.code-workspace

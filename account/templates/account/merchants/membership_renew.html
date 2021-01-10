@@ -1,0 +1,40 @@
+{% extends "about/base.html" %}
+
+{% load static %}
+
+{% block title %}NowWeGrow Membership{% endblock %}
+
+{% block hero %}{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-start align-items-center">
+      <h1>Membership Renewal</h1>
+      &nbsp; &nbsp; &nbsp; <a href="{% url 'dashboard' %}">Back to Profile</a>
+    </div>
+
+    <table class="table">
+        <thead class="text-center">
+          <th>Member Since</th>
+          <th>Renew Price</th>
+          <th>Last renewal</th>
+          <th>Active?</th>
+          <th>&nbsp;</th>
+        </thead>
+        <tr>
+          <td class="created">{{ membership.created }}</td>
+          <td class="price">{{ memb_prod.unit_price }}</td>
+          <td class="updated">{{ membership.updated }}</td>
+          <td class="active">{{ membership.active }}</td>
+          <td class="renew">
+            <form action="" method="POST">
+                <input type="hidden" name="order_id" value="{{ membership.order }}">
+                <input type="hidden" name="mem_id" value="{{ membership.id }}">
+                <input type="submit" value="Renew">
+                {% csrf_token %}
+            </form>
+        </td>
+        </tr>
+      </table>
+{% endblock %}

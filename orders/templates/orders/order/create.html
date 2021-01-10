@@ -1,0 +1,83 @@
+{% extends "about/base.html" %}
+
+{% load static %} 
+
+{% block title %}Checkout{% endblock %}
+
+{% block hero %}
+<div class="hero-wrap hero-bread" style="background-image: url( {% static '/images/bg_1.jpg' %} );">
+  <div class="container">
+    <div class="row no-gutters slider-text align-items-center justify-content-center">
+      <div class="col-md-9 ftco-animate text-center">
+        <p class="breadcrumbs"><span class="mr-2"><a href="{% url 'index' %}">Home</a></span> <span>Order</span></p>
+        <h1 class="mb-0 bread">Checkout</h1>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row justify-content-start">
+    <h1>Checkout</h1>
+  </div>
+
+  <div class="order-info">
+    <div class="row justify-content-start">
+      <h3>Your order</h3>
+    </div>
+    <div class="row justify-content-start">
+      <ul>
+        {% for item in cart %}
+          <li>
+            {{ item.quantity }}x {{ item.product.name }},&nbsp;
+            <span>${{ item.total_price }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="row justify-content-start">
+      <p><h3>Total: ${{ cart.get_total_price }}</h3></p>
+    </div>
+  </div>
+  {% if addresses %}
+    <div class="row justify-content-start">
+      <form action="." method="post" enctype="multipart/form-data">
+        {{ order_form}}
+        <p><h4>Please select the address to associate with your order</h4></p>
+        <table class="table">
+          <thead class="text-center">
+            <th>Nickname</th>
+            <th>Address 1</th>
+            <th>Address 2</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Zip</th>
+            <th>Select</th>
+          </thead>
+          {% for address in addresses%}
+          <tr>
+            <td class="nickname">{{ address.nickname }}</td>
+            <td class="address1">{{ address.address1 }}</td>
+            <td class="address2">{{ address.address2 }}</td>
+            <td class="city">{{ address.city }}</td>
+            <td class="state">{{ address.state }}</td>
+            <td class="zip">{{ address.zip }}</td>
+            <td class="select">
+              <input type="radio" name="add_id" value ="{{ address.id }}">
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+        <p style="text-align:right"><input type="submit" value="Place order" class="btn btn-primary py-3 px-4"></p>
+        {% csrf_token %}
+      </form>
+    </div>
+  {% else %}
+    <div class="row justify-content-start">
+      <p>Please <a href="{% url 'user_addresses' %}">add an address</a> to your account.</p>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "about/base.html" %}
+
+{% load static %}
+
+{% block title %}Order Items{% endblock %}
+
+{% block hero %}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-start align-items-center">
+        <h1>Order history</h1>
+        &nbsp; &nbsp; &nbsp; <a href="{% url 'dashboard' %}">Back to Profile</a>
+    </div>
+
+    {% if items %}
+    <div class="row justify-content-start">
+        <table class="table">
+            <thead class="thead-primary">
+                <tr class="text-center">
+                    <th>Order ID</th>
+                    <th>Product name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Date ordered</th>
+                </tr>
+            </thead>
+            {% for item in items %} 
+            <tr class="text-center">
+                <td class="order-id"># {{item.order.id}}</td>
+                <td class="product-name">{{ item.product.name }}</td>
+                <td class="price">{{ item.price }}</td>
+                <td class="quantity">{{ item.quantity }}</td>
+                <td class="date-ordered">Ordered: {{item.order.created}}</td>     
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    {% else %}
+    <div class="row justify-content-start">
+      <p>You do not have any orders associated with your account.</p>
+    </div>
+    {% endif %}
+</div>   
+{% endblock %}

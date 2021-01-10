@@ -1,0 +1,80 @@
+{% extends "about/base.html" %}
+
+{% load static %}
+
+{% block title %}Products{% endblock %}
+
+{% block hero %}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-start align-items-center">
+        <h1>Product Management</h1>
+        &nbsp; &nbsp; &nbsp; <a href="{% url 'dashboard' %}">Back to Profile</a>
+    </div>
+
+    {% if messages %}
+        <div class="row justify-content-start">
+            {% for message in messages %}
+                <p>{{message}}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="row justify-content-start">
+        <a href="{% url 'add_product' %}"><p>Add a new product</p></a>
+    </div>
+
+    {% if products %}
+    <div class="row justify-content-start">
+        <table class="table">
+            <thead class="thead-primary">
+                <tr class="text-center">
+                    <th>Edit</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Sale Unit</th>
+                    <th>Unit Price</th>
+                    <th>Created</th>
+                    <th>Updated</th>
+                    <th>Available?</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            {% for product in products %} 
+            <tr class="text-center">
+                <td class="product_id">
+                    <form action="{% url 'edit_products' %}" method="GET">
+                        <input type="hidden" name="product_id" value="{{product.id}}">
+                        <input type="submit" value="Edit">
+                        {% csrf_token %}
+                    </form>
+                </td>
+                <td class="name">{{ product.name }}</td>
+                <td class="category">{{ product.category }}</td>
+                <td class="unit">{{ product.sale_unit }}</td>
+                <td class="price">{{ product.unit_price }}</td>
+                <td class="created">{{ product.created }}</td>
+                <td class="updated">{{ product.updated }}</td>
+                <td class="available">{{ product.available }}</td>
+                {% if product.available %}
+                    <td class="deactivate">
+                        <form action="{% url 'deactivate_product' %}" method="POST">
+                            <input type="hidden" name="product_id" value="{{ product.id }}">
+                            <input type="submit" value="Deactivate">
+                            {% csrf_token %}
+                        </form>
+                    </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    {% else %}
+    <div class="row justify-content-start">
+      <p>You do not have any products associated with your account.</p>
+    </div>
+    {% endif %}
+</div>   
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends "about/base.html" %}
+
+{% load static %}
+
+{% block title %}NowWeGrow Membership{% endblock %}
+
+{% block hero %}{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row justify-content-start align-items-center">
+    <h1>Membership</h1>
+    &nbsp; &nbsp; &nbsp; <a href="{% url 'dashboard' %}">Back to Profile</a>
+  </div>
+
+  <div class="row justify-content-start">
+  {% if messages %}
+    {% for message in messages %}
+      <p>{{message}}</p>
+    {% endfor %}
+  {% endif %}
+  </div>
+
+  <div class="row justify-content-start">
+    <p>The price for an annual membership is currently ${{memb_prod.unit_price}}.</p>
+  </div>
+
+  {% if membership %}
+    <table class="table">
+      <thead class="text-center">
+        <th>Member Since</th>
+        <th>Price paid</th>
+        <th>Last renewal</th>
+        <th>Active?</th>
+      </thead>
+      <tr>
+        <td class="created">{{ membership.created }}</td>
+        <td class="price">{{ membership.price }}</td>
+        <td class="updated">{{ membership.updated }}</td>
+        <td class="active">{{ membership.active }}</td>
+      </tr>
+    </table>
+    {% if not membership.active %}
+      <p>
+        <form action="{% url 'renew_membership' %}" method="GET">
+          <input type="hidden" name="mem_order" value="{{ membership.order }}">
+          <input type="hidden" name="mem_id" value="{{ membership.id }}">
+          <input type="submit" value="Renew your membership">
+          {% csrf_token %}
+        </form>
+      </p>
+    {% endif %}
+  {% else %}  
+    {% if addresses %}
+      <form action="." method="post">
+        <h3>Please select the address to associate with your membership.</h3>
+        <table class="table">
+          <thead class="text-center">
+            <th>Nickname</th>
+            <th>Address 1</th>
+            <th>Address 2</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Zip</th>
+            <th>Select</th>
+          </thead>
+          {% for address in addresses %}
+            <tr>
+              <td class="nickname">{{ address.nickname }}</td>
+              <td class="address1">{{ address.address1 }}</td>
+              <td class="address2">{{ address.address2 }}</td>
+              <td class="city">{{ address.city }}</td>
+              <td class="state">{{ address.state }}</td>
+              <td class="zip">{{ address.zip }}</td>
+              <td class="select">
+                <input type="radio" name="add_id" value ="{{ address.id }}">
+              </td>
+            </tr>
+          {% endfor %}
+        </table>
+        {% csrf_token %}
+        <p style="text-align:right"><input type="submit" value="Activate membership"></p>
+      </form>
+    {% else %}
+      <div class="row justify-content-start">
+        <a href="{% url 'add_address' %}">Please add an address to your account.</a>
+      </div>
+</div>
+{% endif %}
+{% endif %}
+{% endblock %}

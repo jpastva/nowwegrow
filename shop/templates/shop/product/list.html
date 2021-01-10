@@ -1,0 +1,85 @@
+{% extends "about/base.html" %}
+
+{% load static %} 
+
+{% block title %}
+  {% if category %}{{ category.name }}{% else %}Products{% endif %}
+{% endblock %}
+
+{% block style %}
+<style>
+    img {
+      width: 275;
+      height: 200;
+    }
+
+    .cover {
+        object-fit: cover;
+    }
+    
+</style>
+{% endblock %}
+
+{% block hero %}
+
+<div class="hero-wrap hero-bread" style="background-image: url( {% static '/images/image_6.jpg' %} );">
+	<div class="container">
+	  <div class="row no-gutters slider-text align-items-center justify-content-center">
+		<div class="col-md-9 ftco-animate text-center">
+			<p class="breadcrumbs"><span class="mr-2"><a href="{% url 'index' %}">Home</a></span> <span>Products</span></p>
+		  <h1 class="mb-0 bread">Shop</h1>
+		</div>
+	  </div>
+	</div>
+  </div>
+  
+{% endblock %}
+
+{% block content %}
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12 mb-5 text-center">
+                <ul class="product-category">
+                    <li {% if not category %}class="selected"{% endif %}>
+                        <a href="{% url 'shop:product_list' %}">All</a>
+                    </li>
+                    {% for c in categories %}
+                     <li {% if category.slug == c.slug %}class="selected"
+                    {% endif %}>
+                        <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+  </div>
+  <div id="main" class="product-list">
+    <div class="container">
+    <h1>{% if category %}{{ category.name }}{% else %}Products
+    {% endif %}</h1>
+    <div class="row">
+      {% for product in products %}
+      <div class="col-md-6 col-lg-3 ftco-animate">
+        <div class="product">
+          <a href="{{ product.get_absolute_url }}" class="img-prod">
+            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" alt="{{product.name}}">
+          </a>
+          <div class="text py-3 pb-4 px-3 text-center">
+            <h3><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></h3>
+            <div class="d-flex">
+              <div class="text py-3 pb-4 px-3 text-center">
+                <p>${{ product.unit_price }} per {{ product.sale_unit }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    </div>
+</div>
+</section>      
+
+{% endblock %}

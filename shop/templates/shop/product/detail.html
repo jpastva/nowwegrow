@@ -1,0 +1,63 @@
+{% extends "about/base.html" %}
+
+{% load static %} 
+
+{% block title %}
+    {{ product.name }}
+{% endblock %}
+
+{% block style %}
+<style>
+    img {
+        width: 400px;
+        height: 275px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      }
+
+      .cover {
+          object-fit: cover;
+      }
+</style>
+{% endblock %}
+
+{% block hero %}
+
+<div class="hero-wrap hero-bread" style="background-image: url( {% static '/images/image_6.jpg' %} );">
+	<div class="container">
+	  <div class="row no-gutters slider-text align-items-center justify-content-center">
+		<div class="col-md-9 ftco-animate text-center">
+			<p class="breadcrumbs"><span class="mr-2"><a href="{% url 'index' %}">Home</a></span> <span>Products</span></p>
+		  <h1 class="mb-0 bread">{{product.name}}</h1>
+		</div>
+	  </div>
+	</div>
+  </div>
+  
+{% endblock %}
+
+{% block content %}
+
+<section class="ftco-section">
+<div class="container">
+    <div itemscope itemtype="http://schema.org/Product" class="row">
+        <div class="col-lg6 mb-5 ftco-animate">
+            <img itemprop="image" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" class="cover" alt="{{product.name}}">
+        </div>
+        <div class="col-lg-6 product-details pl-md-5 ftco-animate">
+            <h2><a href="{{ product.category.get_absolute_url }}">{{ product.category }}</a></h2>
+            <h1 itemprop="name">{{ product.name }}</h1>
+            <a href="{{ merchant.get_absolute_url}}"><p itemprop="name">{{ merchant.merchant_name }}</p></a>
+            <p itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="price"><span itemprop="price">Price: ${{ product.unit_price }} per {{ product.sale_unit }}</span></p>
+            <p itemprop="description">{{ product.description|linebreaks }}</p>
+            <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                {{ cart_product_form }}
+                {% csrf_token %}
+                <p></p>
+                <input type="submit" class="btn btn-black py-3 px-5" value="Add to cart">
+            </form>
+        </div>
+    </div>
+</div>
+</section>
+
+{% endblock %}

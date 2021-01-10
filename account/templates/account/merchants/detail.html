@@ -1,0 +1,86 @@
+{% extends "about/base.html" %}
+
+{% load static %} 
+
+{% block title %}
+    {{ merchant.merchant_name }}
+{% endblock %}
+
+{% block style %}
+<style>
+    img {
+      width: 830px;
+      height: 400px;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .cover {
+        object-fit: cover;
+    }
+
+    body {
+        padding-top: 0px;
+    }
+    .with-margin {
+      margin-bottom: 30px;
+    }
+    
+</style>
+{% endblock %}
+
+{% block hero %}
+<div class="hero-wrap hero-bread" style="background-image: url( {% static '/images/bg_1.jpg' %} );">
+  <div class="container">
+    <div class="row no-gutters slider-text align-items-center justify-content-center">
+      <div class="col-md-9 ftco-animate text-center">
+        <p class="breadcrumbs"><span class="mr-2"><a href="{% url 'index' %}">Home</a></span> <span>Merchants</span></p>
+        <h1 class="mb-0 bread">{{merchant.merchant_name}}</h1>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container" style="margin:20px">
+    <div itemscope itemtype="http://schema.org/LocalBusiness" class="row align-items-center">
+        <div class="col-sm-5 ftco-animate"> 
+           <div class="content with-margin">    
+            <h1 itemprop="name">{{ merchant.merchant_name }}</h1>
+           </div>
+        </div>
+        <div class="col-lg-7 ftco-animate"> 
+          <div class="content with-margin">
+            <img itemprop="image" src="{% if merchant.image %}{{ merchant.image.url }}{% else %}{% static '/images/no_image.png' %}{% endif %}" class="cover" alt="{{merchant.merchant_name}}"> 
+          </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-8 ftco-animate">
+            <p itemprop="description">{{ merchant.description }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm col-md-offset-2 ftco-animate">
+            <p>Contact us!</p>
+            <p itemprop="email">{{ merchant.mechant_email }}</p>
+            <p itemprop="telephone">{{ merchant.merchant_phone }}</p>
+        </div>
+        {% if merchant.merchant_website %}
+          <div class="col-sm col-md-offset-2 ftco-animate">
+              <p><a itemprop="url" href="{{ merchant.merchant_website }}">Visit our website</a></p>
+          </div>
+        {% endif %}
+        <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress" class="col-sm col-md-offset-2 ftco-animate">
+            <p>Visit us in person:</p>
+            <p><span itemprop="streetAddress">{{ merchant.merchant_street }}</span>, <span itemprop="postalCode">{{ merchant.merchant_zip }}</span></p>
+        </div>
+        {% if merchant.product_url %}
+          <div class="col-sm col-md-offset-2 ftco-animate">
+            <p><a href="{{merchant.product_url}}">View our products</a></p>
+          </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

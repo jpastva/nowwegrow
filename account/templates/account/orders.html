@@ -1,0 +1,61 @@
+{% extends "about/base.html" %}
+
+{% load static %}
+
+{% block title %}Orders{% endblock %}
+
+{% block hero %}{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-start align-items-center">
+        <h1>Order history</h1>
+        &nbsp; &nbsp; &nbsp; <a href="{% url 'dashboard' %}">Back to Profile</a>
+    </div>
+
+    {% if orders %}
+    <div class="row justify-content-start">
+        <table class="table">
+            <thead class="thead-primary">
+                <tr class="text-center">
+                    <th>Order ID</th>
+                    <th>Order total</th>
+                    <th>Date ordered</th>
+                    <th>Order active?</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            {% for order in orders %} 
+                <tr class="text-center">
+                    <td class="order_id">
+                        <form action="{% url 'user_order_items' %}" method="GET">
+                            <input type="hidden" name="order_id" value="{{order.id}}">
+                            <input type="submit" value="#{{order.id}}">
+                            {% csrf_token %}
+                        </form>
+                    </td>
+                    <td class="total">{{ order.total }}</td>
+                    <td class="date-ordered">Ordered: {{ order.created }}</td>
+                    <td class="status">{{ order.active }}</td>
+                    {% if order.active %}
+                        <td class="cancel">
+                            <form action="{% url 'cancel_order' %}" method="POST">
+                                <input type="hidden" name="order_id" value="{{ order.id }}">
+                                <input type="submit" value="Cancel">
+                                {% csrf_token %}
+                            </form>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    {% else %}
+        <div class="row justify-content-start">
+        <p>You do not have any orders associated with your account.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

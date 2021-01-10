@@ -1,0 +1,68 @@
+{% extends "about/base.html" %}
+
+{% load static %}
+
+{% block title %}Addresses{% endblock %}
+
+{% block hero %}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-start align-items-center">
+        <h1>Addresses</h1>
+        &nbsp; &nbsp; &nbsp; <a href="{% url 'dashboard' %}">Back to Profile</a>
+    </div>
+
+    {% if messages %}
+        <div class="row justify-content-start">
+            {% for message in messages %}
+                <p>{{message}}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="row justify-content-start">
+        <p><a href="{% url 'add_address' %}">Add a new address.</a></p>
+    </div>
+
+    {% if addresses %}
+    <div class="row justify-content-start">
+        <table class="table">
+            <thead class="thead-primary">
+                <tr class="text-center">
+                    <th>Nickname</th>
+                    <th>Address 1</th>
+                    <th>Address 2</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Zip</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            {% for address in addresses %} 
+            <tr class="text-center">
+                <td class="nickname">{{ address.nickname }}</td>
+                <td class="address1">{{ address.address1 }}</td>
+                <td class="address2">{{ address.address2 }}</td>
+                <td class="city">{{ address.city }}</td>
+                <td class="state">{{ address.state }}</td>
+                <td class="zip">{{ address.zip }}</td>
+                <td class="cancel">
+                    <form action="{% url 'delete_address' %}" method="POST">
+                        <input type="hidden" name="address_id" value="{{ address.id }}">
+                        <input type="submit" value="Delete">
+                        {% csrf_token %}
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    {% else %}
+    <div class="row justify-content-start">
+      <p>You do not have any addresses associated with your account.</p>
+    </div>
+    {% endif %}
+</div>       
+{% endblock %}

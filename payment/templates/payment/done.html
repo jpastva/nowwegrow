@@ -1,0 +1,31 @@
+{% extends "about/base.html" %}
+
+{% load static %} 
+
+{% block title %}Complete{% endblock %}
+
+{% block hero %}
+<div class="hero-wrap hero-bread" style="background-image: url( {% static '/images/bg_1.jpg' %} );">
+  <div class="container">
+    <div class="row no-gutters slider-text align-items-center justify-content-center">
+      <div class="col-md-9 ftco-animate text-center">
+        <p class="breadcrumbs"><span class="mr-2"><a href="{% url 'index' %}">Home</a></span> <span>Order</span></p>
+        <h1 class="mb-0 bread">Payment</h1>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="row d-flex justify-content-center py-3">
+  <div class="col-md-6">
+  <h1>Your payment was successful</h1>
+  </div>
+</div>
+<div class="row d-flex justify-content-center py-2">
+  <div class="col-md-6">
+    <p>Your payment has been processed successfully.</p>
+  </div>
+</div>
+{% endblock %}

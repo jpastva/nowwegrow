@@ -1,0 +1,28 @@
+{% extends "about/base.html" %}
+
+{% load static %}
+
+{% block title %}Address Update{% endblock %}
+
+{% block hero %}{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row justify-content-start">
+    <h1>Address Removal</h1>
+  </div>
+  <div class="row justify-content-start">
+    {% if messages %}
+      {% for message in messages %}
+        <p>{{message}}</p>
+      {% endfor %}
+    {% endif %}
+  </div>
+  <div class="row justify-content-start">
+    <p><a href="{% url 'user_addresses' %}">Return to view your addresses.</a></p>
+  </div>
+  <div class="row justify-content-start">
+    <p><a href="{% url 'dashboard' %}">Return to your profile.</a></p>
+  </div>
+</div>
+{% endblock %}
